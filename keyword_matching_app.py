@@ -3,9 +3,10 @@ import pandas as pd
 import re
 
 # core funcs
-def add_matching_term(df, keyword_file):
-    with open(keyword_file, 'r') as file:
-        keywords = file.read().splitlines()
+def add_matching_term(df, keywords_content):
+    #with open(keyword_file, 'r') as file:
+        #keywords = file.read().splitlines()
+    keywords = keywords_content.splitlines()
 
     # Function to check if Legal Name contains any keyword
     def check_keywords(legal_name):
@@ -42,7 +43,8 @@ def main():
         processing_msg = st.empty()
         processing_msg.info("Please wait while the processing is running...")
         df = pd.read_excel(uploaded_xlsx)
-        df_processed = add_matching_term(df, uploaded_txt.name)
+        keywords_content = uploaded_txt.getvalue().decode('utf-8')
+        df_processed = add_matching_term(df, keywords_content)
         processing_msg.empty()
         processing_msg.success("Processing completed!")
         st.write(df_processed)
